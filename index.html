@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspection Report</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+   <h1>SUYASH SOLUTIONS PVT. LTD.</h1>
+    <h2>Inspection Report</h2>
+    <form id="inspectionForm" onsubmit="submitForm(event)">
+        <!-- Name and Date Fields Side-by-Side -->
+        <div class="form-row">
+            <div class="form-group half-width">
+                <label for="nameInput">Name:</label>
+                <input type="text" id="nameInput"  placeholder="Type to search..."  required>
+                <div id="nameSuggestions" class="suggestions"></div>
+                <input type="text" id="otherName" name="otherName" style="display:none;" placeholder="Enter name">
+            </div>
+            <div class="form-group half-width">
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" value="">
+            </div>
+        </div>
+
+        <!-- Supplier Name Dropdown -->
+        <div class="form-group">
+            <label for="supplierInput">Supplier Name:</label>
+            <input type="text" id="supplierInput" placeholder="Type to search..." required >
+            <div id="supplierSuggestions" class="suggestions"></div>
+            <input type="text" id="otherSupplier" name="otherSupplier" style="display:none;" placeholder="Enter supplier name">
+        </div>
+
+       <!--Bill No.-->
+        <div class="form-group">
+                <label for="billNo">Bill No.:</label>
+                <input type="text" id="billNo" name="billNo" placeholder="Enter bill number" required >
+            </div>
+            
+       <!--Gate Entry No.-->
+        <div class="form-group">
+                <label for="gateEntryNo">Gate Entry No.:</label>
+                <input type="text" id="gateEntryNo" name="gateEntryNo" placeholder="Enter Gate Entry number" required >
+            </div>
+      
+        <!-- Quality Check Fields (Generated based on selected product or standard criteria) -->
+        <div class="form-group">
+            <label for="productInput">Select Product:</label>
+            <input type="text" id="productInput" placeholder="Type to search... " required>
+            <div id="productSuggestions" class="suggestions"></div>
+            <input type="text" id="otherProduct" name="otherProduct" style="display:none;" placeholder="Enter product name">
+        </div>
+         <!--Quantity Fields Side-by-Side -->
+        <div class="form-row">
+            <div class="form-group half-width">
+                <label for="Quantity as per invoice">Invoice Quantity:</label>
+                <input type="text" id="invoiceQuantity" name="invoiceQuantity" placeholder="Enter invoice Quantity" required >
+            </div>
+        
+            <div class="form-group half-width">
+              <label for="ActualQuantity">Actual Quantity:</label>
+              <input type="text" id="actualQuantity" name="actualQuantity" placeholder="Enter actual Quantity" required >
+            </div>
+        </div>
+        <!-- Item Code Dropdown -->
+        <div class="form-group">
+            <label for="itemCodeInput">Item Code:</label>
+            <input type="text" id="itemCodeInput" placeholder="Type to search..." required >
+            <div id="itemCodeSuggestions" class="suggestions"></div>
+        </div>
+
+        <!-- Quality Check Fields Container -->
+        <div id="qualityChecksContainer" class="quality-checks">
+            <!-- Quality Check fields will be dynamically added here -->
+        </div>
+
+        <!--Remark container-->
+        <div class="form-group">
+            <label for="remark">Remark:</label>
+            <input type="text" id="remark" name="remark" placeholder="Enter remarks" >
+        </div>
+        <!--Action taken container-->
+        <div class="form-group">
+           <label for="actionTaken">Action Taken:</label>
+           <input type="text" id="actionTaken" name="actionTaken" placeholder="Enter action taken" >
+        </div>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+<script src=script.js></script>
+</body>
+</html>
