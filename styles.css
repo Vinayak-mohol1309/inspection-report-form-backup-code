@@ -1,0 +1,110 @@
+        /* Basic styling for better presentation */
+        body {
+            font-family: "Courier New", Courier, monospace;
+	    font-size: 19px;
+            font-weight: bold;
+            background-color: #f0f0f0; 
+            margin: 0;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border-radius: 10px;
+            border: 1px solid #000000;
+        }
+        .suggestions {
+            position: absolute;
+            width: 100%;
+            border: 1px solid #000000;
+            background-color: #ffffff;
+            border-radius: 10px;
+            max-height: 150px;
+            overflow-y: auto;
+            z-index: 1;
+            display: none;
+        }
+        .suggestion-item {
+            padding: 8px;
+            cursor: pointer;
+        }
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .form-group.half-width {
+            flex: 0 0 48%;
+        }
+        button[type="submit"] {
+            display: block;
+            margin: 20px auto;
+            padding: 5px;
+            font-size: 16px;
+            border-radius: 10px;
+            background-color: #000000;
+            color: white;
+            cursor: pointer;
+            border: 1px solid #000000;
+        }
+        .quality-checks {
+            margin-top: 15px;
+        }
+        .quality-checks label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: normal;
+        }
+        .quality-checks .check-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            gap: 5px;
+        }
+        .quality-checks .check-row input {
+            width: calc(33.33% - 10px);
+            border: 1px solid #000000;
+            border-radius:10px;
+            padding: 4px;
+        }
+        @media (max-width: 600px) {
+            .quality-checks .check-row input {
+                width: calc(50% - 10px);
+            }
+        }
+        h2,h1 {
+            text-align: center;
+            margin-top:0;
+            margin-bottom: 5px;
+        }
+        .quality-checks label {
+            font-weight: bold;
+        }
+        h1{
+          font-size: 14px;
+        }
+        h2{
+          font-size: 18px;
+        }
+	.refresh-icon {
+        display: none;
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 24px;
+        z-index: 10;
+       }
