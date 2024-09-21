@@ -1,0 +1,147 @@
+const sheetName = 'Sheet1';
+const scriptProp = PropertiesService.getScriptProperties();
+
+function initialSetup() {
+  const activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  scriptProp.setProperty('key', activeSpreadsheet.getId());
+}
+
+function doPost(e) {
+  const lock = LockService.getScriptLock();
+  lock.tryLock(10000);
+
+  try {
+    const doc = SpreadsheetApp.openById(scriptProp.getProperty('key'));
+    const sheet = doc.getSheetByName(sheetName);
+
+    const formData = JSON.parse(e.postData.contents);
+
+    const code = formData.code;
+    const username = formData.name;
+    const date = formData.date;
+    const supplierName = formData.supplierName;
+    const billNo = formData.billNo;
+    const gateEntryNo = formData.gateEntryNo;    // added 21/09/2024
+    const productName = formData.productName;
+    const invoiceQuantity = formData.invoiceQuantity;
+    const actualQuantity = formData.actualQuantity;
+    const itemCode = formData.itemCode;
+    const qualityChecks = formData.qualityChecks;
+    const remark = formData.remark;
+    const actionTaken = formData.actionTaken;
+
+    // Function to sort quality checks
+    function sortQualityChecks(qualityChecks) {
+      const sortedQualityChecks = {};
+    
+      qualityChecks.forEach(check => {
+        const criteria = check.name;
+        const value = check.value.toLowerCase(); // Normalize the value to lowercase for consistency
+    
+        if (!sortedQualityChecks[criteria]) {
+          sortedQualityChecks[criteria] = [];
+        }
+        sortedQualityChecks[criteria].push(value);
+      });
+    
+      return sortedQualityChecks;
+    }
+
+    const sortedQualityChecks = sortQualityChecks(qualityChecks);
+
+    const allRows = [];
+
+    Object.keys(sortedQualityChecks).forEach((key) => {
+      const fieldValue = key;
+      const values = sortedQualityChecks[key];
+
+      const rowData = [
+        code,
+        username,
+        date,
+        supplierName,
+        billNo,
+        gateEntryNo,   // added 21/09/2024
+        productName,
+        invoiceQuantity,
+        actualQuantity,
+        itemCode,
+        fieldValue,
+        values[0] || '',
+        values[1] || '',
+        values[2] || '',
+        remark,
+        actionTaken
+      ];
+
+      allRows.push(rowData);
+    });
+
+    const startRow = sheet.getLastRow() + 1;
+    sheet.getRange(startRow, 1, allRows.length, allRows[0].length).setValues(allRows);
+
+    const output = {
+      status: 'success'
+    };
+    mergingRow(); // Call the merging function after inserting the rows
+    return ContentService.createTextOutput(JSON.stringify(output)).setMimeType(ContentService.MimeType.JSON);
+
+  } catch (error) {
+    const output = {
+      status: 'error',
+      error: error.message
+    };
+
+    Logger.log('Error: ' + error.message);
+    return ContentService.createTextOutput(JSON.stringify(output)).setMimeType(ContentService.MimeType.JSON);
+
+  } finally {
+    lock.releaseLock();
+  }
+
+}
+
+function doOptions(e) {
+  return ContentService.createTextOutput('')
+    .setMimeType(ContentService.MimeType.TEXT)
+    .setHeader('Access-Control-Allow-Origin', '*')
+    .setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+    .setHeader('Access-Control-Allow-Headers', 'Content-Type');
+}
+
+function mergingRow() {
+  const spreadsheet = SpreadsheetApp.openById("1QDlugpdOIsx4Is83Iqp9ASoObs25P-KhZQQGzIqZDeo");
+  const sheet = spreadsheet.getSheetByName("Sheet1");
+  const dataRange = sheet.getDataRange();
+  const values = dataRange.getValues();
+  const lastRow = values.length;
+
+  // Get the code value from the last row
+  const lastRowCode = values[lastRow - 1][0];
+  const lastRowValues = values[lastRow - 1].slice(0, 9); // First 9 columns of the last row
+
+  // Find the first row with the same code value as the last row's code value
+  let startMergeRow = null;
+  for (let i = lastRow - 2; i >= 0; i--) { // Start from the second to last row
+    if (values[i][0] === lastRowCode) {
+      startMergeRow = i;
+    } else {
+      break; // Stop when the code value no longer matches
+    }
+  }
+
+  // If there is a matching row, perform the merge
+  if (startMergeRow !== null) {
+    const mergeRowCount = lastRow - startMergeRow;
+
+    // Merge the first 10 columns vertically
+    for (let col = 0; col < 10; col++) {      // important part merging
+      sheet.getRange(startMergeRow + 1, col + 1, mergeRowCount, 1).mergeVertically();
+    }
+
+    // Store values in the merged range
+    for (let col = 0; col < 9; col++) {
+      sheet.getRange(startMergeRow + 1, col + 1).setValue(lastRowValues[col]);
+    }
+  }
+}
