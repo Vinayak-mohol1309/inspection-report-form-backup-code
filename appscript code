@@ -110,7 +110,7 @@ function doOptions(e) {
 }
 
 function mergingRow() {
-  const spreadsheet = SpreadsheetApp.openById("1QDlugpdOIsx4Is83Iqp9ASoObs25P-KhZQQGzIqZDeo");
+  const spreadsheet = SpreadsheetApp.openById("14gm7QDKMPWHBWvLTaR5oe9QaUdlJ7_NRlwd-U-TldFs");
   const sheet = spreadsheet.getSheetByName("Sheet1");
   const dataRange = sheet.getDataRange();
   const values = dataRange.getValues();
@@ -118,7 +118,7 @@ function mergingRow() {
 
   // Get the code value from the last row
   const lastRowCode = values[lastRow - 1][0];
-  const lastRowValues = values[lastRow - 1].slice(0, 9); // First 9 columns of the last row
+  const lastRowValues = values[lastRow - 1].slice(0, 10); // First 10 columns of the last row
 
   // Find the first row with the same code value as the last row's code value
   let startMergeRow = null;
@@ -140,7 +140,7 @@ function mergingRow() {
     }
 
     // Store values in the merged range
-    for (let col = 0; col < 9; col++) {
+    for (let col = 0; col < 10; col++) {     // important part merging
       sheet.getRange(startMergeRow + 1, col + 1).setValue(lastRowValues[col]);
     }
   }
