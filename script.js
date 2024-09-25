@@ -1,3 +1,20 @@
+// Fetch the JSON data from the external file
+fetch('productData.json')
+    .then(response => response.json()) // Parse the JSON data
+    .then(data => {
+        // Now you can use the product data here
+        console.log(data); // This will log the fetched productData
+        const productData = data;
+
+        // Continue with your logic using productData
+    })
+    .catch(error => {
+        console.error('Error fetching product data:', error);
+    });
+
+
+
+
 
     // refresh page script code
     document.addEventListener('DOMContentLoaded', () => {
