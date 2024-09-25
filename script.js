@@ -1,15 +1,18 @@
 // Fetch the JSON data from the external file
-fetch('productData.json')
-    .then(response => response.json()) // Parse the JSON data
-    .then(data => {
-        // Now you can use the product data here
-        console.log(data); // This will log the fetched productData
-        const productData = data;
-
-        // Continue with your logic using productData
+fetch('productData.json') // Ensure the path is correct
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json(); // Parse JSON data
     })
+    .then(data => {
+        // Now you have the JSON data
+        console.log(data); // This will log the loaded productData
+	     const productData = data;
+ })
     .catch(error => {
-        console.error('Error fetching product data:', error);
+        console.error('Error loading the JSON data:', error);
     });
 
 
